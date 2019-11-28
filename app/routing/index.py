@@ -1,12 +1,15 @@
-from flask import render_template
+from flask import render_template, request
 
 from app import app
 from app.objects.employee import Employee
 
 
-@app.route('/')
+@app.route('/', methods=['GET', 'POST'])
 def index():
-    Employee()
+    if request.environ['REQUEST_METHOD'] == 'POST':
+        new_emp = Employee(**request.form)
+        new_emp.create()
+
     context = {
         'form_fields': Employee.form_fields()
     }

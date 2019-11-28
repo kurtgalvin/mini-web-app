@@ -1,13 +1,16 @@
 {% include "header.html" %}
 
 <div>
-  <form action="#" method="POST" id="index-main-form">
+  <form action="/" method="POST" id="index-main-form">
     {% for field in form_fields %}
       <div class="index-form-value-input-pair">
-        <div>{{ field.label }}:</div>
-        <input type="text" name="{{ field.id }}">
+        <div style="min-width: 125px;">{{ field.label }}:</div>
+        <input type="{{ field.type }}" name="{{ field.id }}" {% if field.required %} required {% endif %}>
       </div>
     {% endfor %}
+    <div class="center" style="padding-top: 5px;">
+      <input type="submit" value="Submit">
+    </div>
   </form>
 </div>
 
