@@ -1,7 +1,7 @@
 {% include "header.html" %}
 
 <div>
-  <form action="/" method="POST" id="index-main-form">
+  <form id="index-main-form" onsubmit="indexFormSubmit(event)">
     {% for field in form_fields %}
       <div class="index-form-value-input-pair">
         <div style="min-width: 125px;">{{ field.label }}:</div>
@@ -12,6 +12,9 @@
       <input type="submit" value="Submit">
     </div>
   </form>
+  <div id="index-main-form-response" class="center-text" style="padding-top: 5px;"></div>
+
+  
 </div>
 
 {% include "footer.html" %}

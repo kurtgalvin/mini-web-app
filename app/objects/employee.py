@@ -6,16 +6,24 @@ import psycopg2
 
 class Employee:
     def __init__(self, **kwargs):
+        self.id = None
         for k, v in kwargs.items():
             setattr(self, k, v)
+        self.phone_number = ''.join(i for i in self.phone_number if i.isdigit())
 
-    def create(self):
+    def create(self) -> dict:
         with get_db_connection() as conn:
             with conn.cursor() as cur:
-                cur.execute("""
-                    INSERT INTO employee(first_name, last_name, email, "position", phone_number, salary, date_hired)
-                    VALUES (%s, %s, %s, %s, %s, %s, %s);
-                """, (self.first_name, self.last_name, self.email, self.position, int(self.phone_number), int(self.salary), self.date_hired))
+                try:
+                    cur.execute("""
+                        INSERT INTO employee(first_name, last_name, email, "position", phone_number, salary, date_hired)
+                        VALUES (%s, %s, %s, %s, %s, %s, %s);
+                    """, (self.first_name, self.last_name, self.email, self.position, int(self.phone_number), int(self.salary), self.date_hired))
+                except psycopg2.IntegrityError:
+                    return {'complete': False, 'error': 'IntegrityError'}
+                except:
+                    return {'complete': False, 'error': 'database error'}
+        return {'complete': True}
     
     @staticmethod
     def form_fields() -> List[dict]:
