@@ -7,4 +7,7 @@ from app.objects.employee import Employee
 @app.route('/')
 def index():
     Employee()
-    return render_template('index.html')
+    context = {
+        'form_fields': Employee.form_fields()
+    }
+    return render_template('index.html', **context)

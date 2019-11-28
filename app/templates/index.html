@@ -1,5 +1,14 @@
 {% include "header.html" %}
 
-<h1>Hello</h1>
+<div>
+  <form action="#" method="POST" id="index-main-form">
+    {% for field in form_fields %}
+      <div class="index-form-value-input-pair">
+        <div>{{ field.label }}:</div>
+        <input type="text" name="{{ field.id }}">
+      </div>
+    {% endfor %}
+  </form>
+</div>
 
 {% include "footer.html" %}

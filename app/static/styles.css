@@ -1,3 +1,35 @@
-h1 {
-    color: blue;
+body, h1 {
+    margin: 0;
+    font-family: 'Tomorrow', sans-serif;
+}
+
+header {
+    background-color: #80cee1;
+}
+.center {
+    margin: 0 auto;
+}
+.center-text {
+    text-align: center;
+}
+.header-main {
+    height: 80px;
+}
+.header-main h1 {
+    padding-top: 20px;
+}
+#index-main-form {
+    width: 80%;
+    max-width: 300px;
+    display: flex;
+    flex-wrap: wrap;
+    margin: auto;
+    padding-top: 20px;
+}
+.index-form-value-input-pair {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding-top: 5px;
 }
