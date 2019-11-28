@@ -2,15 +2,25 @@ body, h1 {
     margin: 0;
     font-family: 'Tomorrow', sans-serif;
 }
-
 header {
     background-color: #80cee1;
 }
+ul {
+    padding: 5px 0;
+}
+li {
+    list-style-type: none;
+}
+
 .center {
     margin: 0 auto;
 }
 .center-text {
     text-align: center;
+}
+.flex-between {
+    display: flex;
+    justify-content: space-between;
 }
 .header-main {
     height: 80px;
@@ -32,4 +42,9 @@ header {
     flex-wrap: wrap;
     justify-content: space-between;
     padding-top: 5px;
+}
+#index-all-employees {}
+.index-employee {}
+.index-employee li {
+    width: 100px;
 }

@@ -14,7 +14,24 @@
   </form>
   <div id="index-main-form-response" class="center-text" style="padding-top: 5px;"></div>
 
-  
+  <ul id="index-all-employees" class="center" style="width: 80%; max-width: 300px;">
+    <li>
+      <ul class="flex-between index-employee" style="font-weight: bold;">
+        <li>First Name</li>
+        <li>Last Name</li>
+        <li>Position</li>
+      </ul>
+    </li>
+    {% for employee in all_employees %}
+      <li>
+        <ul class="flex-between index-employee">
+          <li>{{ employee.first_name }}</li>
+          <li>{{ employee.last_name }}</li>
+          <li>{{ employee.position }}</li>
+        </ul>
+      </li>
+    {% endfor %}
+  </ul>
 </div>
 
 {% include "footer.html" %}

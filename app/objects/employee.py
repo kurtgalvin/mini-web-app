@@ -24,6 +24,22 @@ class Employee:
                 except:
                     return {'complete': False, 'error': 'database error'}
         return {'complete': True}
+
+    @staticmethod
+    def get_all() -> list:
+        with get_db_connection() as conn:
+            with conn.cursor() as cur:
+                cur.execute('SELECT * FROM employee')
+                return [{
+                    'id': i[0],
+                    'first_name': i[1],
+                    'last_name': i[2],
+                    'email': i[3],
+                    'position': i[4],
+                    'phone_number': i[5],
+                    'salary': i[6],
+                    'date_hired': i[7],
+                } for i in cur.fetchall()]
     
     @staticmethod
     def form_fields() -> List[dict]:
