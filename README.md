@@ -23,7 +23,7 @@ UNIQUE(first_name, last_name)
 ## Stack
 ### Hosting
 * Database: Amazon Relational Database Service (AWS RDS). 
-* Web Hosting: Heroku.
+* Web: Heroku.
 
 ### Backend
 * Python: Flask, without SQLAlchemy.
