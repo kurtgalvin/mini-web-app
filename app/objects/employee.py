@@ -5,11 +5,20 @@ import psycopg2
 
 
 class Employee:
-    def __init__(self, **kwargs):
-        self.id = None
+    def __init__(self, id=None, **kwargs):
+        if id:
+            with get_db_connection() as conn:
+                with conn.cursor() as cur:
+                    cur.execute('SELECT * FROM employee WHERE id = %s', (id,))
+                    r = cur.fetchone()
+                    for k, v in self._normalize_to_dict(r).items():
+                        setattr(self, k, v)
+
         for k, v in kwargs.items():
             setattr(self, k, v)
-        self.phone_number = ''.join(i for i in self.phone_number if i.isdigit())
+            
+        if isinstance(self.phone_number, str):
+            self.phone_number = ''.join(i for i in self.phone_number if i.isdigit())
 
     def create(self) -> dict:
         with get_db_connection() as conn:
@@ -25,21 +34,53 @@ class Employee:
                     return {'complete': False, 'error': 'database error'}
         return {'complete': True}
 
+    def update(self) -> dict:
+        with get_db_connection() as conn:
+            with conn.cursor() as cur:
+                try:
+                    cur.execute("""
+                        UPDATE employee
+                        SET first_name=%s, last_name=%s, email=%s, "position"=%s, phone_number=%s, salary=%s, date_hired=%s
+                        WHERE id=%s
+                    """, (self.first_name, self.last_name, self.email, self.position, int(self.phone_number), int(self.salary), self.date_hired, self.id))
+                except psycopg2.IntegrityError:
+                    return {'complete': False, 'error': 'IntegrityError'}
+                except:
+                    return {'complete': False, 'error': 'database error'}
+        return {'complete': True}
+
+    def delete(self) -> dict:
+        with get_db_connection() as conn:
+            with conn.cursor() as cur:
+                try:
+                    cur.execute("""
+                        DELETE FROM employee
+                        WHERE id=%s
+                    """, (self.id,))
+                except:
+                    return {'complete': False}
+        return {'complete': True}
+                    
+
+    @staticmethod
+    def _normalize_to_dict(result: tuple) -> dict:
+        return {
+            'id': result[0],
+            'first_name': result[1],
+            'last_name': result[2],
+            'email': result[3],
+            'position': result[4],
+            'phone_number': result[5],
+            'salary': result[6],
+            'date_hired': result[7],
+        }
+
     @staticmethod
     def get_all() -> list:
         with get_db_connection() as conn:
             with conn.cursor() as cur:
                 cur.execute('SELECT * FROM employee')
-                return [{
-                    'id': i[0],
-                    'first_name': i[1],
-                    'last_name': i[2],
-                    'email': i[3],
-                    'position': i[4],
-                    'phone_number': i[5],
-                    'salary': i[6],
-                    'date_hired': i[7],
-                } for i in cur.fetchall()]
+                return [Employee._normalize_to_dict(i) for i in cur.fetchall()]
     
     @staticmethod
     def form_fields() -> List[dict]:

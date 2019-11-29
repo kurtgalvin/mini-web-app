@@ -14,7 +14,7 @@
   </form>
   <div id="index-main-form-response" class="center-text" style="padding-top: 5px;"></div>
 
-  <ul id="index-all-employees" class="center" style="width: 80%; max-width: 300px;">
+  <ul id="index-all-employees" class="center" style="width: 80%; max-width: 300px; padding-top: 20px;">
     <li>
       <ul class="flex-between index-employee" style="font-weight: bold;">
         <li>First Name</li>
@@ -24,14 +24,20 @@
     </li>
     {% for employee in all_employees %}
       <li>
-        <ul class="flex-between index-employee">
-          <li>{{ employee.first_name }}</li>
-          <li>{{ employee.last_name }}</li>
-          <li>{{ employee.position }}</li>
-        </ul>
+        <a href="/employees/{{ employee.id }}">
+          <ul class="flex-between index-employee">
+            <li>{{ employee.first_name }}</li>
+            <li>{{ employee.last_name }}</li>
+            <li>{{ employee.position }}</li>
+          </ul>
+        </a>
       </li>
     {% endfor %}
   </ul>
+
+  <h4 style="width: max-content; margin: 1.33em auto;">
+    Click employee to edit
+  </h4>
 </div>
 
 {% include "footer.html" %}

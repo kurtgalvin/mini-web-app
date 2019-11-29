@@ -1,18 +1,22 @@
 console.log('Thank you for taking the time to look over my project!')
 
-function indexFormSubmit(e) {
-  e.preventDefault()
-  const elems = e.target.elements
-  const responseElem = document.getElementById('index-main-form-response')
+function getFormData(event) {
+  const elems = event.target.elements
 
   let formData = new FormData()
-  console.log(e.target.elements)
   for(i = 0; i < elems.length-1; i++) {
     formData.append([elems[i].name], elems[i].value)
   }
+  return formData
+}
+
+function indexFormSubmit(e) {
+  e.preventDefault()
+  const formData = getFormData(e)
+  const responseElem = document.getElementById('index-main-form-response')
 
   const xmlHttp = new XMLHttpRequest()
-  xmlHttp.open("POST", '/api/employee')
+  xmlHttp.open("POST", '/api/employees')
   xmlHttp.onload = function() {
     const response = JSON.parse(this.response)
     if(response['complete']) {
@@ -22,6 +26,26 @@ function indexFormSubmit(e) {
     } else {
       responseElem.innerHTML = '<span style="color: red;">Employee NOT created, Error</span>'
     }
+    location.reload()
   }
   xmlHttp.send(formData)
+}
+
+function saveEmployee(e) {
+  e.preventDefault()
+  const formData = getFormData(e)
+
+  const xmlHttp = new XMLHttpRequest()
+  xmlHttp.open("PUT", '/api/employees/'+formData.get('id'))
+  formData.delete('id')
+  xmlHttp.send(formData)
+}
+
+function deleteEmployee(empId) {
+  const xmlHttp = new XMLHttpRequest()
+  xmlHttp.open("DELETE", '/api/employees/'+empId)
+  xmlHttp.onload = function() {
+    location.reload()
+  }
+  xmlHttp.send(null)
 }

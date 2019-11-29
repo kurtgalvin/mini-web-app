@@ -1,0 +1,21 @@
+{% include "header.html" %}
+
+<div>
+  <ul class="center" style="width: 80%; max-width: 300px; padding-top: 20px;">
+    <form onsubmit="saveEmployee(event)">
+      <input type="hidden" name="id" value="{{ employee.id }}">
+      {% for field in form_fields %}
+        <li class="flex-between" style="padding-top: 5px;">
+          <div style="min-width: 125px;">{{ field.label }}:</div>
+          <input type="{{ field.type }}" name="{{ field.id }}" value="{{ employee[field.id] }}" {% if field.required %} required {% endif %}>
+        </li>
+      {% endfor %}
+      <li class="flex-between" style="padding-top: 10px;">
+        <input type="submit" value="Save">
+        <div id="delete-button" onclick="deleteEmployee({{ employee.id }})">Delete</div>
+      </li>
+    </form>
+  </ul>
+</div>
+
+{% include "footer.html" %}
