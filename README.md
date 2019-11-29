@@ -29,6 +29,7 @@ UNIQUE(first_name, last_name)
 * Python: Flask, without SQLAlchemy.
 
 ### Frontend
-* HTML5
-* CSS
-* Javascript
+* Templating: Jinja2.
+* HTML5.
+* CSS.
+* Javascript.
