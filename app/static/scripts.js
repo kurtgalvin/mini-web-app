@@ -26,7 +26,6 @@ function indexFormSubmit(e) {
     } else {
       responseElem.innerHTML = '<span style="color: red;">Employee NOT created, Error</span>'
     }
-    location.reload()
   }
   xmlHttp.send(formData)
 }
@@ -52,6 +51,9 @@ function saveEmployee(e) {
 
 function deleteEmployee(empId) {
   const xmlHttp = new XMLHttpRequest()
+  if(!confirm("Are you sure?")) {
+    return false
+  }
   xmlHttp.open("DELETE", '/api/employees/'+empId)
   xmlHttp.onload = function() {
     location.reload()
