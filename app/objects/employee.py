@@ -3,16 +3,42 @@ from typing import List
 import configparser
 import os
 import psycopg2
+import psycopg2.extras
 
 
 class Employee:
     def __init__(self, id=None, **kwargs):
+        ''' Employee object.
+        If no id is provided, it will be assumed the employee does not exists.
+        An id is required to update or delete an employee.
+
+        kwargs can be passed in or instance assignment can be used
+
+        Example create:
+        emp = Employee(**{'first_name': 'foo'})
+        emp.last_name = 'bar'
+        emp.create()
+
+        Example update:
+        emp = Employee(id=1)
+        emp.last_name = 'barz'
+        emp.update()
+
+        or 
+
+        emp = Employee(id=1, last_name='barz')
+        emp.update()
+
+        When id is provided with kwargs, the id is used to query
+        the given employee, the returned values of this query are
+        assigned to the employee object, then, the original kwargs 
+        will be assigned, replacing all necessary values.
+        '''
         if id:
             with get_db_connection() as conn:
-                with conn.cursor() as cur:
+                with conn.cursor(cursor_factory=psycopg2.extras.DictCursor) as cur:
                     cur.execute('SELECT * FROM employee WHERE id = %s', (id,))
-                    r = cur.fetchone()
-                    for k, v in self._normalize_to_dict(r).items():
+                    for k, v in dict(cur.fetchone()).items():
                         setattr(self, k, v)
 
         for k, v in kwargs.items():
@@ -60,28 +86,14 @@ class Employee:
                     """, (self.id,))
                 except:
                     return {'complete': False}
-        return {'complete': True}
-                    
-
-    @staticmethod
-    def _normalize_to_dict(result: tuple) -> dict:
-        return {
-            'id': result[0],
-            'first_name': result[1],
-            'last_name': result[2],
-            'email': result[3],
-            'position': result[4],
-            'phone_number': result[5],
-            'salary': result[6],
-            'date_hired': result[7],
-        }
+        return {'complete': True}          
 
     @staticmethod
     def get_all() -> list:
         with get_db_connection() as conn:
-            with conn.cursor() as cur:
+            with conn.cursor(cursor_factory=psycopg2.extras.DictCursor) as cur:
                 cur.execute('SELECT * FROM employee')
-                return [Employee._normalize_to_dict(i) for i in cur.fetchall()]
+                return [dict(i) for i in cur.fetchall()]
     
     @staticmethod
     def form_fields() -> List[dict]:
