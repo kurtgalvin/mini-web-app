@@ -5,7 +5,7 @@
     <form onsubmit="saveEmployee(event)">
       <input type="hidden" name="id" value="{{ employee.id }}">
       {% for field in form_fields %}
-        <li class="flex-between" style="padding-top: 5px;">
+        <li class="flex-between" style="padding-top: 5px; flex-wrap: wrap;">
           <div style="min-width: 125px;">{{ field.label }}:</div>
           <input type="{{ field.type }}" name="{{ field.id }}" value="{{ employee[field.id] }}" {% if field.required %} required {% endif %}>
         </li>
