@@ -3,8 +3,9 @@
 Hello!
 This [here](http://afternoon-dusk-09486.herokuapp.com/) is my mini-web-app project!
 
-### DB Schema
-##### Employee Table
+## DB Schema
+Employee Table
+
 | name         | Data Type | Length | Not Null? | Primary Key? |
 | ------------ | ----------| ------ | --------- | ------------ |
 | id           | integer   |        | Yes       | Yes          |
@@ -18,3 +19,16 @@ This [here](http://afternoon-dusk-09486.herokuapp.com/) is my mini-web-app proje
 ```sql
 UNIQUE(first_name, last_name)
 ```
+
+## Stack
+### Hosting
+* Database: Amazon Relational Database Service (AWS RDS). 
+* Web Hosting: Heroku.
+
+### Backend
+* Python: Flask, without SQLAlchemy.
+
+### Frontend
+* HTML5
+* CSS
+* Javascript
