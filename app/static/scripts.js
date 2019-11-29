@@ -33,11 +33,20 @@ function indexFormSubmit(e) {
 
 function saveEmployee(e) {
   e.preventDefault()
-  const formData = getFormData(e)
+  const formData = getFormData(e) 
+  const responseElem = document.getElementById('employee-response-li')
 
   const xmlHttp = new XMLHttpRequest()
   xmlHttp.open("PUT", '/api/employees/'+formData.get('id'))
   formData.delete('id')
+  xmlHttp.onload = function() {
+    const response = JSON.parse(this.response)
+    if(response['complete']) {
+      responseElem.innerHTML = '<span style="color: green;">Employee Saved!</span>'
+    } else {
+      responseElem.innerHTML = '<span style="color: red;">Employee did NOT save</span>'
+    }
+  }
   xmlHttp.send(formData)
 }
 

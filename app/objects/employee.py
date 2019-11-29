@@ -149,14 +149,15 @@ class Employee:
 
 
 def get_db_connection():
-    # config = configparser.ConfigParser()
-    # config.read('app/env/config.ini')
-    # return psycopg2.connect(
-    #     host=config['aws']['host'],
-    #     database=config['aws']['database'],
-    #     user=config['aws']['user'],
-    #     password=config['aws']['password']
-    # )
+    if os.path.exists('app/env/config.ini'):
+        config = configparser.ConfigParser()
+        config.read('app/env/config.ini')
+        return psycopg2.connect(
+            host=config['aws']['host'],
+            database=config['aws']['database'],
+            user=config['aws']['user'],
+            password=config['aws']['password']
+        )
     return psycopg2.connect(
         host=os.environ.get('host'),
         database=os.environ.get('database'),
