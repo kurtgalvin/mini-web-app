@@ -15,6 +15,12 @@ a {
     color: black;
     text-decoration: none;
 }
+input[type=submit] {
+    font-family: 'Tomorrow', sans-serif;
+    background-color: lightgreen;
+    border: none;
+    padding: 2px 6px;
+}
 
 /* index page */
 .center {
