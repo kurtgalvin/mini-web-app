@@ -1,6 +1,7 @@
 from typing import List
 
 import configparser
+import os
 import psycopg2
 
 
@@ -148,11 +149,17 @@ class Employee:
 
 
 def get_db_connection():
-    config = configparser.ConfigParser()
-    config.read('app/env/config.ini')
+    # config = configparser.ConfigParser()
+    # config.read('app/env/config.ini')
+    # return psycopg2.connect(
+    #     host=config['aws']['host'],
+    #     database=config['aws']['database'],
+    #     user=config['aws']['user'],
+    #     password=config['aws']['password']
+    # )
     return psycopg2.connect(
-        host=config['aws']['host'],
-        database=config['aws']['database'],
-        user=config['aws']['user'],
-        password=config['aws']['password']
+        host=os.environ.get('host'),
+        database=os.environ.get('database'),
+        user=os.environ.get('user'),
+        password=os.environ.get('password')
     )
